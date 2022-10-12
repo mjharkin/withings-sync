@@ -237,12 +237,13 @@ def prepare_syncdata(height, groups):
         }
 
 
-        # if groupdata["weight"] is None:
-            # logging.info(
-            #    "This Withings metric contains no weight data.  Not syncing..."
-            # )
-            # logging.debug("Detected data: ")
-            # continue
+        if groupdata["weight"] is None:
+            logging.info(
+               "This Withings metric contains no weight data.  Not syncing..."
+            )
+            logging.debug("Detected data: ")
+            logging.debug(groupdata)
+            continue
         if height and groupdata["weight"]:
             groupdata["bmi"] = round(
                 groupdata["weight"] / pow(groupdata["height"], 2), 1
@@ -283,11 +284,11 @@ def prepare_syncdata(height, groups):
         syncdata.append(groupdata)
         logging.debug("Processed data: ")
         for k,v in groupdata.items():
-            logging.debug(k, v)
+            logging.debug("{0} {1}".format(k, v))
         if last_date_time is None or groupdata["date_time"] > last_date_time:
             last_date_time = groupdata["date_time"]
             last_weight = groupdata["weight"]
-            logging.debug("last_dt: %s last_weight: %s", last_date_time, last_weight)
+            logging.debug("last_dt: {0} last_weight: {1}".format(last_date_time, last_weight))
 
     if last_weight is None:
         logging.error("Invalid or no weight data detected")

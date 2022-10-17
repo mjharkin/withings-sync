@@ -8,6 +8,8 @@ import json
 
 from datetime import date, datetime
 
+import pycron as pycron
+
 from withings_sync.withings2 import WithingsAccount
 from withings_sync.garmin import GarminConnect
 from withings_sync.trainerroad import TrainerRoad
@@ -97,6 +99,15 @@ def get_args():
         type=str,
         metavar="TRAINERROAD_PASSWORD",
         help="password to log in to TrainerRoad.",
+    )
+
+    parser.add_argument(
+        "--cron",
+        "-c",
+        default="0 */4 * * *",
+        type=str,
+        metavar="CRON",
+        help="cron schedule",
     )
 
     parser.add_argument("--fromdate", "-f", type=date_parser, metavar="DATE")
@@ -393,4 +404,19 @@ def main():
         print("Sorry, requires Python3, not Python2.")
         sys.exit(1)
 
-    sync()
+    if ARGS.cron is not None:
+        logging.info("Scheduling for {}".format(ARGS.cron));
+        while True:
+            if pycron.is_now(ARGS.cron):
+                try:
+                    sync()
+                except Exception as e:
+                    logging.error("Exception occured: {}".format(e))
+
+                time.sleep(60)
+            else:
+                time.sleep(15)
+    else:
+        sync()
+
+

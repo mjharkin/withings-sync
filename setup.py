@@ -34,7 +34,8 @@ setup(
         # We pin it here to avoid conflicts with httpx
         'charset-normalizer~=2.0.0',
         'httpx',
-        'httpx[http2]'
+        'httpx[http2]',
+        'pycron'
     ],
     entry_points={
         'console_scripts': [

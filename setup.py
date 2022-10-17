@@ -33,7 +33,8 @@ setup(
         #  (see https://requests.readthedocs.io/en/latest/user/advanced/#encodings)
         # We pin it here to avoid conflicts with httpx
         'charset-normalizer~=2.0.0',
-        'cloudscraper'
+        'cloudscraper',
+        'pycron'
     ],
     entry_points={
         'console_scripts': [

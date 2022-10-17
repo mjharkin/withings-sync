@@ -104,7 +104,7 @@ def get_args():
     parser.add_argument(
         "--cron",
         "-c",
-        default="0 */4 * * *",
+        default=None,
         type=str,
         metavar="CRON",
         help="cron schedule",

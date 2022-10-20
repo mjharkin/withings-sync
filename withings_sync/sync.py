@@ -410,6 +410,7 @@ def main():
         while True:
             if pycron.is_now(ARGS.cron):
                 try:
+                    ARGS.todate = date.today()
                     sync()
                 except Exception as e:
                     logging.error("Exception occured: {}".format(e))
